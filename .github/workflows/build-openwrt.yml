@@ -8,6 +8,10 @@ on:
         description: 'SSH 连接到 Actions'
         required: false
         default: 'false'
+      release:
+        description: '发布release版本'
+        required: false
+        default: 'false'
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede  # 仓库 URL
@@ -208,7 +212,7 @@ jobs:
 
     - name: Generate release tag  # 生成发布标签
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: (env.UPLOAD_RELEASE == 'true' || github.event.inputs.release == 'true' ) && !cancelled()
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
