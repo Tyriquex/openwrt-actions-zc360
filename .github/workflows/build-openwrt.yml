@@ -105,12 +105,15 @@ jobs:
       with:
         path: |
           openwrt/.cache
-          openwrt/build_dir
-          openwrt/staging_dir
+          # 注释掉可能过大的目录，优先保留最重要的
+          #openwrt/build_dir
+          #openwrt/staging_dir
           openwrt/dl
         key: ${{ runner.os }}-build-${{ hashFiles('**/.config', '**/feeds.conf.default', '**/diy-part1.sh', '**/diy-part2.sh') }}
         restore-keys: |
           ${{ runner.os }}-build-
+      # 添加超时设置
+      timeout-minutes: 5
           
     - name: Initialization environment
       env:
@@ -202,10 +205,12 @@ jobs:
       with:
         path: |
           openwrt/.cache
-          openwrt/build_dir
-          openwrt/staging_dir
+          #openwrt/build_dir
+          #openwrt/staging_dir
           openwrt/dl
         key: ${{ runner.os }}-build-${{ hashFiles('**/.config', '**/feeds.conf.default', '**/diy-part1.sh', '**/diy-part2.sh') }}
+      # 添加超时设置
+      timeout-minutes: 10
         
     - name: Check space usage  # 检查空间使用情况
       if: (!cancelled())
